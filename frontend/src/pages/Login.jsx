@@ -1,24 +1,25 @@
 // Login.jsx
 import React, { useState } from 'react';
-import './Login.css'; // Importa o CSS específico do componente Login
+import './Login.css';
 
-function Login() {
+function Login({ onLoginSuccess }) { // Recebe a prop onLoginSuccess
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState('');
-  const [mensagemSucesso, setMensagemSucesso] = useState(''); // Estado para mensagem de sucesso
+  const [mensagemSucesso, setMensagemSucesso] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Limpa mensagens anteriores de erro e sucesso no início da submissão
     setErro('');
     setMensagemSucesso('');
 
-    // Simulação de login (substitua pelo fetch real futuramente)
     if (email === 'admin@email.com' && senha === '1234') {
-      setMensagemSucesso('Login bem-sucedido!'); // Exibe mensagem na UI
-      // TODO: redirecionar ou mudar estado de autenticação
+      setMensagemSucesso('Login bem-sucedido!');
+      // Chama a função passada pelo App.jsx para indicar sucesso no login
+      if (onLoginSuccess) {
+        onLoginSuccess();
+      }
     } else {
       setErro('Email ou senha inválidos');
     }
@@ -30,22 +31,22 @@ function Login() {
         <h2>Login</h2>
 
         {erro && <p className='login-erro'>{erro}</p>}
-        {mensagemSucesso && <p className='login-sucesso'>{mensagemSucesso}</p>} {/* Exibe mensagem de sucesso */}
+        {mensagemSucesso && <p className='login-sucesso'>{mensagemSucesso}</p>}
 
-        <label htmlFor="email">Email:</label> {/* Adicionado 'htmlFor' para acessibilidade */}
+        <label htmlFor="email">Email:</label>
         <input
           type="email"
-          id="email" // Adicionado 'id' para associar com a label
+          id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
           className='login-input'
         />
 
-        <label htmlFor="senha">Senha:</label> {/* Adicionado 'htmlFor' para acessibilidade */}
+        <label htmlFor="senha">Senha:</label>
         <input
           type="password"
-          id="senha" // Adicionado 'id' para associar com a label
+          id="senha"
           value={senha}
           onChange={(e) => setSenha(e.target.value)}
           required
