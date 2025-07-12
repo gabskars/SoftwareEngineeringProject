@@ -3,9 +3,7 @@ import prisma from "../prismaClient.js";
 export default class PatientRepository {
   async getAllPatients() {
     try {
-      return await prisma.paciente.findMany({
-        where: { deletedAt: null },
-      });
+      return await prisma.paciente.findMany({});
     } catch (error) {
       console.error("Error ao buscar os pacientes:", error);
       throw error;
