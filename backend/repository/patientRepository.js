@@ -44,4 +44,27 @@ export default class PatientRepository {
       return patient;
     } catch (error) {}
   }
+  async updatePatient(patientId, patientData) {
+    try {
+      const updatedPatient = await prisma.paciente.update({
+        where: { id: patientId },
+        data: patientData,
+      });
+      return updatedPatient;
+    } catch (error) {
+      console.error("Erro ao editar paciente:", error);
+      throw error;
+    }
+  }
+  async deletePatient(patientId) {
+    try {
+      const deletedPatient = await prisma.paciente.delete({
+        where: { id: patientId },
+      });
+      return deletedPatient;
+    } catch (error) {
+      console.error("Erro ao deletar paciente:", error);
+      throw error;
+    }
+  }
 }

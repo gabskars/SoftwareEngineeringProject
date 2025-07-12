@@ -10,16 +10,30 @@ export default class PatientService {
       throw error;
     }
   }
-  async createPatient(){
+  async createPatient() {
     try {
-      return patient = repository.createPatient();
+      return (patient = repository.createPatient());
     } catch (error) {
       throw error;
     }
   }
-  async getPatientById(patientId){
+  async getPatientById(patientId) {
     try {
-      return repository.getPatientById(patientId)
+      return repository.getPatientById(patientId);
+    } catch (error) {
+      throw error;
+    }
+  }
+  async updatePatient(patientId, patientData) {
+    try {
+      return await repository.updatePatient(patientId, patientData);
+    } catch (error) {
+      throw error;
+    }
+  }
+  async deletePatient(patientId) {
+    try {
+      return await repository.deletePatient(patientId);
     } catch (error) {
       throw error;
     }
