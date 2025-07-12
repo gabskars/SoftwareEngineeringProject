@@ -1,0 +1,76 @@
+/* Login.css */
+.login-container {
+  height: 100vh; /* Ocupa 100% da altura da viewport */
+  width: 100vw;  /* Ocupa 100% da largura da viewport */
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+  background: #f4f4f4; /* Fundo cinza claro para o container de login */
+  /* Removidas as bordas de teste */
+}
+
+.login-form {
+  background: white; /* Fundo branco para o formulário em si */
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  display: flex;
+  flex-direction: column;
+  width: 90%; /* Largura responsiva */
+  max-width: 300px; /* Largura máxima para telas maiores */
+  color: #333; /* Cor do texto padrão para o formulário */
+  /* Removidas as bordas de teste */
+}
+
+.login-form h2 {
+  color: #333; /* Cor do título "Login" */
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.login-input {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc; /* Borda leve e cinza */
+  border-radius: 4px; /* Cantos arredondados */
+  color: #333; /* Cor do texto digitado */
+  background-color: #FFFFFF; /* Fundo branco para o input */
+}
+
+.login-button {
+  padding: 0.75rem;
+  font-size: 1rem;
+  background: #007bff; /* Azul padrão */
+  color: white; /* Cor do texto do botão */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease; /* Efeito de transição ao passar o mouse */
+  margin-top: 1rem; /* Espaçamento acima do botão */
+}
+
+.login-button:hover {
+  background: #0056b3; /* Cor mais escura ao passar o mouse */
+}
+
+.login-erro {
+  color: red; /* Cor do texto de erro */
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+.login-sucesso {
+  color: green; /* Estilo para mensagem de sucesso */
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Estilos para as labels */
+label {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #333; /* Cor das labels */
+}

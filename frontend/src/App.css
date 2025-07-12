@@ -1,10 +1,34 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* App.css */
+
+/* Garante que html e body ocupem 100% da largura e altura da viewport
+   e define um fundo padrão claro para toda a página. */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%; /* Essencial para que vh (viewport height) funcione corretamente */
+  width: 100%;
+  overflow: hidden; /* Evita barras de rolagem indesejadas */
+  background-color: #f0f0f0; /* Fundo cinza bem claro para toda a página */
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  color: #333; /* Cor padrão do texto */
 }
 
+/* O #root deve preencher a tela para que o Login.css possa centralizar seu conteúdo */
+#root {
+  height: 100vh; /* Faz com que #root ocupe 100% da altura da viewport */
+  width: 100vw;  /* Faz com que #root ocupe 100% da largura da viewport */
+  /* Removendo estilos conflitantes do template Vite/React */
+  /* max-width: 1280px; */
+  /* margin: 0 auto; */
+  /* padding: 2rem; */
+  /* text-align: center; */
+}
+
+/* Os estilos abaixo são do template Vite/React e podem ser mantidos,
+   mas não devem interferir com o layout de tela cheia do Login. */
 .logo {
   height: 6em;
   padding: 1.5em;
