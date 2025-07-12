@@ -1,8 +1,8 @@
 // ListaPacientes.jsx
 import React, { useState, useEffect } from 'react';
-import './ListaPacientes.css'; // IMPORTADO NOVAMENTE O CSS TRADICIONAL
+import './ListaPacientes.css'; // Importa o CSS tradicional para esta página
 
-// Mock de dados de pacientes (substitua por dados reais do backend futuramente)
+// Mock de dados de pacientes (MESMO MOCK USADO EM EditarPaciente.jsx)
 const mockPatients = [
   {
     id: '1',
@@ -70,7 +70,7 @@ const mockPatients = [
   },
 ];
 
-function ListaPacientes({ onLogout, onAddNewPatient }) {
+function ListaPacientes({ onLogout, onAddNewPatient, onEditPatient }) { // Adicionada a prop onEditPatient
   const [patients, setPatients] = useState(mockPatients);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredPatients, setFilteredPatients] = useState(mockPatients);
@@ -87,7 +87,10 @@ function ListaPacientes({ onLogout, onAddNewPatient }) {
   }, [searchTerm, patients]);
 
   const handleEdit = (patientId) => {
-    console.log(`Simulação: Editar paciente com ID: ${patientId}`);
+    console.log(`Simulação: Navegar para edição do paciente com ID: ${patientId}`);
+    if (onEditPatient) {
+      onEditPatient(patientId); // Chama a função para navegar para a tela de edição
+    }
   };
 
   const handleDelete = (patientId) => {
