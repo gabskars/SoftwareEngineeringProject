@@ -36,7 +36,7 @@ export default class PatientRepository {
   async getPatientById(patientId) {
     try {
       const patient = await prisma.paciente.findUnique({
-        where: { id: patientId },
+        where: { id: parseInt(patientId) },
       });
 
       return patient;
@@ -45,7 +45,7 @@ export default class PatientRepository {
   async updatePatient(patientId, patientData) {
     try {
       const updatedPatient = await prisma.paciente.update({
-        where: { id: patientId },
+        where: { id: parseInt(patientId) },
         data: patientData,
       });
       return updatedPatient;
@@ -57,7 +57,7 @@ export default class PatientRepository {
   async deletePatient(patientId) {
     try {
       const deletedPatient = await prisma.paciente.delete({
-        where: { id: patientId },
+        where: { id: parseInt(patientId) },
       });
       return deletedPatient;
     } catch (error) {

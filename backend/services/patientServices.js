@@ -12,7 +12,7 @@ export default class PatientService {
   }
   async createPatient(data) {
     try {
-      const patient = repository.createPatient(data)
+      const patient = repository.createPatient(data);
       return patient;
     } catch (error) {
       throw error;
@@ -20,7 +20,10 @@ export default class PatientService {
   }
   async getPatientById(patientId) {
     try {
-      return repository.getPatientById(patientId);
+      const patient = await repository.getPatientById(patientId);
+      if (patient === null) return "O paciente com o ID fornecido não foi encontrado";
+
+      return patient;
     } catch (error) {
       throw error;
     }
