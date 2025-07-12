@@ -10,9 +10,10 @@ export default class PatientService {
       throw error;
     }
   }
-  async createPatient() {
+  async createPatient(data) {
     try {
-      return (patient = repository.createPatient());
+      const patient = repository.createPatient(data)
+      return patient;
     } catch (error) {
       throw error;
     }

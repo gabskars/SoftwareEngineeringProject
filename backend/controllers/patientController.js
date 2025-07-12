@@ -17,7 +17,8 @@ export class PatientController {
   }
   async createPatient(req, res) {
     try {
-      const patient = await service.createPatient();
+      const data = req.body;
+      const patient = await service.createPatient(data);
       res.status(200).json(patient);
     } catch (error) {
       console.error(error);
@@ -71,12 +72,10 @@ export class PatientController {
           .status(404)
           .json({ msg: "Paciente não encontrado para deleção" });
       }
-      res
-        .status(200)
-        .json({
-          msg: "Paciente deletado com sucesso",
-          patient: deletedPatient,
-        });
+      res.status(200).json({
+        msg: "Paciente deletado com sucesso",
+        patient: deletedPatient,
+      });
     } catch (error) {
       console.error("Erro ao deletar paciente:", error);
       res.status(500).json({
