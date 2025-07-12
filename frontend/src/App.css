@@ -1,25 +1,29 @@
 /* App.css */
 
-/* Garante que html e body ocupem 100% da largura e altura da viewport
-   e define um fundo padrão claro para toda a página. */
-html, body {
+/* Reset básico para garantir que não haja margens/paddings indesejados */
+html, body, #root {
   margin: 0;
   padding: 0;
-  height: 100%; /* Essencial para que vh (viewport height) funcione corretamente */
-  width: 100%;
-  overflow: hidden; /* Evita barras de rolagem indesejadas */
-  background-color: #f0f0f0; /* Fundo cinza bem claro para toda a página */
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  color-scheme: light dark;
-  color: #333; /* Cor padrão do texto */
+  box-sizing: border-box; /* Garante que padding e border sejam incluídos na largura/altura */
 }
 
-/* O #root deve preencher a tela para que o Login.css possa centralizar seu conteúdo */
+/* Garante que html, body e #root ocupem 100% da altura e largura da viewport */
+html, body {
+  height: 100%; /* Essencial para que vh (viewport height) funcione corretamente */
+  width: 100%;
+  overflow-y: auto; /* Evita barras de rolagem indesejadas */
+  background-color: #f0f2f5; /* Fundo cinza claro para toda a página */
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif; /* Define a fonte Inter */
+  line-height: 1.5;
+  font-weight: 400;
+  color: #333; /* Cor padrão do texto */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 #root {
-  height: 100vh; /* Faz com que #root ocupe 100% da altura da viewport */
-  width: 100vw;  /* Faz com que #root ocupe 100% da largura da viewport */
+  height: 100vh; /* Ocupa 100% da altura da viewport */
+  width: 100vw;  /* Ocupa 100% da largura da viewport */
   /* Removendo estilos conflitantes do template Vite/React */
   /* max-width: 1280px; */
   /* margin: 0 auto; */
@@ -27,8 +31,7 @@ html, body {
   /* text-align: center; */
 }
 
-/* Os estilos abaixo são do template Vite/React e podem ser mantidos,
-   mas não devem interferir com o layout de tela cheia do Login. */
+/* Estilos padrão do template Vite/React - mantidos para completude */
 .logo {
   height: 6em;
   padding: 1.5em;

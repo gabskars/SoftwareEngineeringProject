@@ -1,0 +1,251 @@
+/* ListaPacientes.css */
+
+/* Definições de fonte global para este componente */
+.lista-pacientes-container {
+  font-family: 'Inter', sans-serif; /* Certifique-se que a fonte Inter está carregada no index.html ou App.css */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Container principal da tela de lista de pacientes */
+.lista-pacientes-container {
+  min-height: 100vh; /* min-h-screen */
+  background-color: #f0f2f5; /* bg-gray-100 */
+  display: flex;
+  flex-direction: column; /* flex-col */
+  align-items: center; /* items-center */
+  padding: 32px 16px; /* py-8 px-4 */
+  box-sizing: border-box;
+}
+
+/* Card/Container da lista */
+.lista-pacientes-card {
+  max-width: 1120px; /* max-w-7xl (ajustado para caber mais conteúdo) */
+  width: 100%; /* w-full */
+  background-color: #ffffff; /* bg-white */
+  padding: 24px; /* p-6 */
+  border-radius: 8px; /* rounded-lg */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* shadow-xl */
+  box-sizing: border-box;
+}
+
+/* Cabeçalho da lista (Título e Botão Sair) */
+.lista-pacientes-header {
+  display: flex;
+  justify-content: space-between; /* justify-between */
+  align-items: center; /* items-center */
+  margin-bottom: 24px; /* mb-6 */
+}
+
+.lista-pacientes-title {
+  font-size: 2.25rem; /* text-3xl */
+  font-weight: 800; /* font-extrabold */
+  color: #1a202c; /* text-gray-900 */
+}
+
+/* Botão Sair */
+.btn-sair {
+  padding: 8px 16px; /* px-4 py-2 */
+  background-color: #ea580c; /* bg-orange-600 */
+  color: #ffffff; /* text-white */
+  font-weight: 600; /* font-semibold */
+  border-radius: 6px; /* rounded-md */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* shadow-md */
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.btn-sair:hover {
+  background-color: #c2410c; /* hover:bg-orange-700 */
+}
+
+.btn-sair:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.5); /* focus:ring-orange-500 */
+}
+
+/* Seção de Busca e Adicionar Paciente */
+.lista-pacientes-search-add {
+  margin-bottom: 24px; /* mb-6 */
+  display: flex;
+  flex-direction: column; /* flex-col */
+  justify-content: space-between; /* justify-between */
+  align-items: center; /* items-center */
+  gap: 16px; /* space-y-4 */
+}
+
+/* Responsividade para a seção de busca/adicionar */
+@media (min-width: 640px) { /* sm breakpoint */
+  .lista-pacientes-search-add {
+    flex-direction: row; /* sm:flex-row */
+    gap: 16px; /* sm:space-x-4 */
+  }
+}
+
+/* Input de busca */
+.search-input {
+  flex-grow: 1; /* flex-grow */
+  padding: 12px; /* p-3 */
+  border: 1px solid #d1d5db; /* border-gray-300 */
+  border-radius: 6px; /* rounded-md */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* shadow-sm */
+  width: 100%; /* w-full */
+  background-color: #ffffff; /* bg-white */
+  color: #1a202c; /* Cor do texto digitado */
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.search-input::placeholder {
+  color: #9ca3af; /* placeholder-gray-400 */
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #3b82f6; /* focus:border-blue-500 */
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25); /* focus:ring-blue-500 */
+}
+
+/* Botão Cadastrar Novo Paciente */
+.btn-add-paciente {
+  padding: 12px 24px; /* px-6 py-3 */
+  background-color: #10b981; /* bg-green-600 */
+  color: #ffffff; /* text-white */
+  font-weight: 600; /* font-semibold */
+  border-radius: 6px; /* rounded-md */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* shadow-md */
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+  width: 100%; /* w-full */
+}
+
+@media (min-width: 640px) { /* sm breakpoint */
+  .btn-add-paciente {
+    width: auto; /* sm:w-auto */
+  }
+}
+
+.btn-add-paciente:hover {
+  background-color: #059669; /* hover:bg-green-700 */
+}
+
+.btn-add-paciente:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.5); /* focus:ring-green-500 */
+}
+
+/* Mensagem de "Nenhum paciente encontrado" */
+.no-patients-message {
+  text-align: center;
+  color: #4a5568; /* text-gray-600 */
+  font-size: 1.125rem; /* text-lg */
+}
+
+/* Wrapper da tabela para overflow e responsividade */
+.tabela-pacientes-wrapper {
+  overflow-x: auto; /* overflow-x-auto */
+  border-radius: 8px; /* rounded-lg */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-md */
+  border: 1px solid #e5e7eb; /* border border-gray-200 */
+}
+
+/* Tabela de Pacientes */
+.tabela-pacientes {
+  min-width: 100%; /* min-w-full */
+  border-collapse: collapse; /* Garante que as bordas da tabela se unam */
+}
+
+.tabela-pacientes thead {
+  background-color: #f9fafb; /* bg-gray-50 */
+}
+
+.tabela-pacientes th {
+  padding: 12px 24px; /* px-6 py-3 */
+  text-align: left;
+  font-size: 0.75rem; /* text-xs */
+  font-weight: 500; /* font-medium */
+  color: #6b7280; /* text-gray-500 */
+  text-transform: uppercase; /* uppercase */
+  letter-spacing: 0.05em; /* tracking-wider */
+  border-bottom: 1px solid #e5e7eb; /* divide-y divide-gray-200 */
+}
+
+.tabela-pacientes tbody {
+  background-color: #ffffff; /* bg-white */
+}
+
+.tabela-pacientes td {
+  padding: 16px 24px; /* px-6 py-4 */
+  white-space: nowrap; /* whitespace-nowrap */
+  font-size: 0.875rem; /* text-sm */
+  color: #4a5568; /* text-gray-500 */
+  border-bottom: 1px solid #e5e7eb; /* divide-y divide-gray-200 */
+}
+
+.tabela-pacientes tbody tr:hover {
+  background-color: #f9fafb; /* hover:bg-gray-50 */
+  transition: background-color 0.15s ease-in-out; /* transition-colors duration-150 ease-in-out */
+}
+
+.tabela-pacientes tbody tr:last-child td {
+  border-bottom: none; /* Remove a borda da última linha */
+}
+
+.tabela-pacientes td:first-child {
+  font-weight: 500; /* font-medium */
+  color: #1a202c; /* text-gray-900 */
+}
+
+/* Coluna de Ações */
+.acoes-header {
+  text-align: center !important; /* Centraliza o cabeçalho da coluna Ações */
+}
+
+.acoes-cell {
+  text-align: center;
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 500; /* font-medium */
+  display: flex; /* Para alinhar botões lado a lado */
+  justify-content: center; /* Centraliza os botões */
+  gap: 8px; /* space-x-2 */
+}
+
+/* Botões de Ação na Tabela (Editar e Excluir) */
+.btn-editar, .btn-excluir {
+  padding: 6px 12px; /* px-3 py-1 */
+  border-radius: 6px; /* rounded-md */
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 500; /* font-medium */
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.btn-editar {
+  background-color: #3b82f6; /* bg-blue-500 */
+  color: #ffffff; /* text-white */
+}
+
+.btn-editar:hover {
+  background-color: #2563eb; /* hover:bg-blue-600 */
+}
+
+.btn-editar:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5); /* focus:ring-blue-500 */
+}
+
+.btn-excluir {
+  background-color: #ef4444; /* bg-red-500 */
+  color: #ffffff; /* text-white */
+}
+
+.btn-excluir:hover {
+  background-color: #dc2626; /* hover:bg-red-600 */
+}
+
+.btn-excluir:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.5); /* focus:ring-red-500 */
+}

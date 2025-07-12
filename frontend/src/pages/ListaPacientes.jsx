@@ -1,7 +1,6 @@
 // ListaPacientes.jsx
 import React, { useState, useEffect } from 'react';
-// Não precisamos mais importar ListaPacientes.css se o Tailwind estiver via CDN
-// import './ListaPacientes.css'; 
+import './ListaPacientes.css'; // IMPORTADO NOVAMENTE O CSS TRADICIONAL
 
 // Mock de dados de pacientes (substitua por dados reais do backend futuramente)
 const mockPatients = [
@@ -71,7 +70,7 @@ const mockPatients = [
   },
 ];
 
-function ListaPacientes({ onLogout }) { // Recebe a prop onLogout
+function ListaPacientes({ onLogout, onAddNewPatient }) {
   const [patients, setPatients] = useState(mockPatients);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredPatients, setFilteredPatients] = useState(mockPatients);
@@ -99,86 +98,71 @@ function ListaPacientes({ onLogout }) { // Recebe a prop onLogout
     }
   };
 
-  const handleAddNewPatient = () => {
-    console.log('Simulação: Redirecionar para tela de cadastro de novo paciente');
-  };
-
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center py-8 px-4 sm:px-6 lg:px-8 font-inter">
-      <div className="max-w-7xl mx-auto w-full bg-white p-6 rounded-lg shadow-xl">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-extrabold text-gray-900">Lista de Pacientes</h1>
-          {/* Botão de Logout */}
+    <div className="lista-pacientes-container">
+      <div className="lista-pacientes-card">
+        <div className="lista-pacientes-header">
+          <h1 className="lista-pacientes-title">Lista de Pacientes</h1>
           <button
             onClick={onLogout}
-            className="px-4 py-2 bg-red-600 text-white font-semibold rounded-md shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition duration-150 ease-in-out"
+            className="btn-sair"
           >
             Sair
           </button>
         </div>
 
-        {/* Barra de Busca (RF05) e Botão de Cadastro (RF01) */}
-        <div className="mb-6 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 sm:space-x-4">
+        <div className="lista-pacientes-search-add">
           <input
             type="text"
             placeholder="Buscar por nome, CPF ou NIS..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="flex-grow p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 w-full sm:w-auto"
+            className="search-input"
           />
-          {isAdmin && ( // Botão de cadastro visível apenas para admin (RF08)
+          {isAdmin && (
             <button
-              onClick={handleAddNewPatient}
-              className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-150 ease-in-out w-full sm:w-auto"
+              onClick={onAddNewPatient}
+              className="btn-add-paciente"
             >
               + Cadastrar Novo Paciente
             </button>
           )}
         </div>
 
-        {/* Tabela de Pacientes (RF04) */}
         {filteredPatients.length === 0 ? (
-          <p className="text-center text-gray-600 text-lg">Nenhum paciente encontrado.</p>
+          <p className="no-patients-message">Nenhum paciente encontrado.</p>
         ) : (
-          <div className="overflow-x-auto rounded-lg shadow-md border border-gray-200">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+          <div className="tabela-pacientes-wrapper">
+            <table className="tabela-pacientes">
+              <thead>
                 <tr>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome Completo</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">CPF</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data Nasc.</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cidade/Estado</th>
-                  {isAdmin && ( // Coluna de Ações visível apenas para admin (RF08)
-                    <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
+                  <th>Nome Completo</th>
+                  <th>CPF</th>
+                  <th>Data Nasc.</th>
+                  <th>Cidade/Estado</th>
+                  {isAdmin && (
+                    <th className="acoes-header">Ações</th>
                   )}
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody>
                 {filteredPatients.map((patient) => (
-                  <tr key={patient.id} className="hover:bg-gray-50 transition-colors duration-150 ease-in-out">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {patient.nomeCompleto}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {patient.cpf}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {new Date(patient.dataNascimento).toLocaleDateString('pt-BR')}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {patient.cidade}/{patient.estado}
-                    </td>
-                    {isAdmin && ( // Botões de Ação visíveis apenas para admin (RF08)
-                      <td className="px-6 py-4 whitespace-nowrap text-center text-sm font-medium space-x-2">
+                  <tr key={patient.id}>
+                    <td>{patient.nomeCompleto}</td>
+                    <td>{patient.cpf}</td>
+                    <td>{new Date(patient.dataNascimento).toLocaleDateString('pt-BR')}</td>
+                    <td>{patient.cidade}/{patient.estado}</td>
+                    {isAdmin && (
+                      <td className="acoes-cell">
                         <button
                           onClick={() => handleEdit(patient.id)}
-                          className="text-indigo-600 hover:text-indigo-900 transition-colors duration-150 ease-in-out"
+                          className="btn-editar"
                         >
                           Editar
                         </button>
                         <button
                           onClick={() => handleDelete(patient.id)}
-                          className="text-red-600 hover:text-red-900 transition-colors duration-150 ease-in-out"
+                          className="btn-excluir"
                         >
                           Excluir
                         </button>

@@ -23,9 +23,11 @@
 }
 
 .login-form h2 {
-  color: #333; /* Cor do título "Login" */
+  color: #333; /* Ensures the title color is dark */
   text-align: center;
   margin-bottom: 1.5rem;
+  font-size: 2rem; /* Aumenta o tamanho da fonte */
+  font-weight: bold; /* Deixa o texto em negrito */
 }
 
 .login-input {

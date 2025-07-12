@@ -2,30 +2,59 @@
 import React, { useState } from 'react';
 import Login from "./pages/Login";
 import ListaPacientes from "./pages/ListaPacientes";
-import './App.css'; // Mantenha o CSS global da aplicação
+import CadastroPaciente from "./pages/CadastroPaciente";
+import './App.css'; // Importa o CSS global da aplicação
 
 function App() {
-  // Estado para controlar se o usuário está logado
-  // Inicialize como false para começar na tela de login
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // Estado para controlar a tela atual: 'login', 'listaPacientes', 'cadastroPaciente'
+  const [currentScreen, setCurrentScreen] = useState('login');
+  const [loggedInUser, setLoggedInUser] = useState(null); // Para armazenar informações do usuário logado
 
-  // Função passada para o componente Login para ser chamada no sucesso do login
-  const handleLoginSuccess = () => {
-    setIsLoggedIn(true);
+  // Função para lidar com o sucesso do login
+  const handleLoginSuccess = (user) => {
+    setLoggedInUser(user);
+    setCurrentScreen('listaPacientes');
   };
 
-  // Função passada para o componente ListaPacientes para fazer logout
+  // Função para lidar com o logout
   const handleLogout = () => {
-    setIsLoggedIn(false);
+    setLoggedInUser(null);
+    setCurrentScreen('login');
+  };
+
+  // Função para navegar para a tela de cadastro
+  const handleNavigateToCadastro = () => {
+    setCurrentScreen('cadastroPaciente');
+  };
+
+  // Função para lidar com o sucesso do cadastro e voltar para a lista
+  // A função onSaveSuccess no CadastroPaciente.jsx não precisa passar o newPatient para o App.jsx
+  // se o App.jsx apenas muda a tela de volta para a lista.
+  const handleCadastroSuccess = () => {
+    console.log('Paciente cadastrado com sucesso! Voltando para a lista.');
+    setCurrentScreen('listaPacientes');
+  };
+
+  // Função para cancelar o cadastro e voltar para a lista
+  const handleCadastroCancel = () => {
+    setCurrentScreen('listaPacientes');
   };
 
   return (
     <>
-      {/* Renderiza o componente de Login se o usuário não estiver logado */}
-      {!isLoggedIn && <Login onLoginSuccess={handleLoginSuccess} />}
-
-      {/* Renderiza o componente ListaPacientes se o usuário estiver logado */}
-      {isLoggedIn && <ListaPacientes onLogout={handleLogout} />}
+      {currentScreen === 'login' && <Login onLoginSuccess={handleLoginSuccess} />}
+      {currentScreen === 'listaPacientes' && (
+        <ListaPacientes
+          onLogout={handleLogout}
+          onAddNewPatient={handleNavigateToCadastro} // Passa a função para navegar para cadastro
+        />
+      )}
+      {currentScreen === 'cadastroPaciente' && (
+        <CadastroPaciente
+          onSaveSuccess={handleCadastroSuccess}
+          onCancel={handleCadastroCancel}
+        />
+      )}
     </>
   );
 }
