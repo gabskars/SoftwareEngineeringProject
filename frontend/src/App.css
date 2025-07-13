@@ -1,10 +1,37 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* App.css */
+
+/* Reset básico para garantir que não haja margens/paddings indesejados */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Garante que padding e border sejam incluídos na largura/altura */
 }
 
+/* Garante que html, body e #root ocupem 100% da altura e largura da viewport */
+html, body {
+  height: 100%; /* Essencial para que vh (viewport height) funcione corretamente */
+  width: 100%;
+  overflow-y: auto; /* Evita barras de rolagem indesejadas */
+  background-color: #f0f2f5; /* Fundo cinza claro para toda a página */
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif; /* Define a fonte Inter */
+  line-height: 1.5;
+  font-weight: 400;
+  color: #333; /* Cor padrão do texto */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  height: 100vh; /* Ocupa 100% da altura da viewport */
+  width: 100vw;  /* Ocupa 100% da largura da viewport */
+  /* Removendo estilos conflitantes do template Vite/React */
+  /* max-width: 1280px; */
+  /* margin: 0 auto; */
+  /* padding: 2rem; */
+  /* text-align: center; */
+}
+
+/* Estilos padrão do template Vite/React - mantidos para completude */
 .logo {
   height: 6em;
   padding: 1.5em;
