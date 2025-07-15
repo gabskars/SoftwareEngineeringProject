@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./ListaPacientes.css";
 import axiosService from "../services/axiosService";
-
-function ListaPacientes({ onLogout, onAddNewPatient, onEditPatient }) {
+import { Navigate, useNavigate } from "react-router-dom";
+function ListaPacientes({ onLogout }) {
   const [patients, setPatients] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredPatients, setFilteredPatients] = useState([]);
@@ -10,11 +10,13 @@ function ListaPacientes({ onLogout, onAddNewPatient, onEditPatient }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const navigate = useNavigate();
+
   // Busca os pacientes ao carregar o componente
   useEffect(() => {
     const fetchPatients = async () => {
       try {
-        const response = await axiosService.get("/patients");
+        const response = await axiosService.get("/patient");
         setPatients(response.data);
         setFilteredPatients(response.data);
         setLoading(false);
@@ -46,6 +48,10 @@ function ListaPacientes({ onLogout, onAddNewPatient, onEditPatient }) {
     }
   };
 
+  const onEditPatient = (patientId) =>{ 
+    navigate(`/pacientes/editar/${patientId}`)
+  }
+
   const handleDelete = async (patientId) => {
     if (
       window.confirm(
@@ -63,6 +69,9 @@ function ListaPacientes({ onLogout, onAddNewPatient, onEditPatient }) {
         alert("Erro ao excluir paciente. Tente novamente.");
       }
     }
+  };
+  const addNewPatient = () => {
+    navigate('/pacientes/novo')
   };
 
   if (loading) {
@@ -104,7 +113,7 @@ function ListaPacientes({ onLogout, onAddNewPatient, onEditPatient }) {
             className="search-input"
           />
           {isAdmin && (
-            <button onClick={onAddNewPatient} className="btn-add-paciente">
+            <button onClick={addNewPatient} className="btn-add-paciente">
               + Cadastrar Novo Paciente
             </button>
           )}
@@ -131,7 +140,7 @@ function ListaPacientes({ onLogout, onAddNewPatient, onEditPatient }) {
               <tbody>
                 {filteredPatients.map((patient) => (
                   <tr key={patient.id}>
-                    <td>{patient.nomeCompleto}</td>
+                    <td>{patient.nome}</td>
                     <td>{patient.cpf}</td>
                     <td>
                       {patient.dataNascimento

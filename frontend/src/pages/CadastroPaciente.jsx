@@ -1,65 +1,83 @@
-// CadastroPaciente.jsx
-import React, { useState } from 'react';
-import './CadastroPaciente.css'; // Importa o CSS tradicional para esta página
+import React, { useState } from "react";
+import "./CadastroPaciente.css";
+import { useNavigate } from "react-router-dom";
+import axiosService from "../services/axiosService"; // Importando o axiosService
 
-function CadastroPaciente({ onSaveSuccess, onCancel }) {
+function CadastroPaciente({ onSaveSuccess }) {
   // Estados para cada campo do formulário
-  const [nomeCompleto, setNomeCompleto] = useState('');
-  const [cpf, setCpf] = useState('');
-  const [dataNascimento, setDataNascimento] = useState('');
-  const [sexo, setSexo] = useState(''); // Pode ser 'Masculino', 'Feminino', 'Outro'
-  const [telefone, setTelefone] = useState('');
-  const [email, setEmail] = useState('');
-  const [endereco, setEndereco] = useState('');
-  const [bairro, setBairro] = useState('');
-  const [cidade, setCidade] = useState('Independência'); // Padrão: "Independência"
-  const [estado, setEstado] = useState('CE'); // Padrão: "CE"
-  const [nis, setNis] = useState('');
+  const [nomeCompleto, setNomeCompleto] = useState("");
+  const [cpf, setCpf] = useState("");
+  const [dataNascimento, setDataNascimento] = useState("");
+  const [sexo, setSexo] = useState("");
+  const [telefone, setTelefone] = useState("");
+  const [email, setEmail] = useState("");
+  const [endereco, setEndereco] = useState("");
+  const [bairro, setBairro] = useState("");
+  const [cidade, setCidade] = useState("Independência");
+  const [estado, setEstado] = useState("CE");
+  const [nis, setNis] = useState("");
 
   // Estado para mensagens de erro e sucesso
-  const [erro, setErro] = useState('');
-  const [mensagemSucesso, setMensagemSucesso] = useState('');
+  const [erro, setErro] = useState("");
+  const [mensagemSucesso, setMensagemSucesso] = useState("");
 
-  // Função para validar CPF (básica, apenas formato e dígitos)
+  const navigate = useNavigate();
+
+  const onCancel = () => {
+    navigate(-1);
+  };
+
+  // Função para validar CPF
   const validarCpf = (cpf) => {
-    cpf = cpf.replace(/[^\d]+/g, ''); // Remove caracteres não numéricos
-    if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false; // Verifica 11 dígitos e CPFs repetidos
-    let soma = 0, resto;
-    for (let i = 1; i <= 9; i++) soma = soma + parseInt(cpf.substring(i - 1, i)) * (11 - i);
+    cpf = cpf.replace(/[^\d]+/g, "");
+    if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
+    let soma = 0,
+      resto;
+    for (let i = 1; i <= 9; i++)
+      soma = soma + parseInt(cpf.substring(i - 1, i)) * (11 - i);
     resto = (soma * 10) % 11;
-    if ((resto === 10) || (resto === 11)) resto = 0;
+    if (resto === 10 || resto === 11) resto = 0;
     if (resto !== parseInt(cpf.substring(9, 10))) return false;
     soma = 0;
-    for (let i = 1; i <= 10; i++) soma = soma + parseInt(cpf.substring(i - 1, i)) * (12 - i);
+    for (let i = 1; i <= 10; i++)
+      soma = soma + parseInt(cpf.substring(i - 1, i)) * (12 - i);
     resto = (soma * 10) % 11;
-    if ((resto === 10) || (resto === 11)) resto = 0;
+    if (resto === 10 || resto === 11) resto = 0;
     if (resto !== parseInt(cpf.substring(10, 11))) return false;
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setErro('');
-    setMensagemSucesso('');
+    setErro("");
+    setMensagemSucesso("");
 
-    // Validação dos campos obrigatórios (RNF06)
-    if (!nomeCompleto || !cpf || !dataNascimento || !sexo || !endereco || !bairro || !cidade || !estado) {
-      setErro('Por favor, preencha todos os campos obrigatórios.');
+    // Validação dos campos obrigatórios
+    if (
+      !nomeCompleto ||
+      !cpf ||
+      !dataNascimento ||
+      !sexo ||
+      !endereco ||
+      !bairro ||
+      !cidade ||
+      !estado
+    ) {
+      setErro("Por favor, preencha todos os campos obrigatórios.");
       return;
     }
 
-    // Validação de CPF (RNF06)
+    // Validação de CPF
     if (!validarCpf(cpf)) {
-      setErro('CPF inválido. Por favor, verifique o número.');
+      setErro("CPF inválido. Por favor, verifique o número.");
       return;
     }
 
-    // Simulação de salvamento de dados (substitua por chamada API real)
+    // Formatar os dados do paciente
     const novoPaciente = {
-      id: Date.now().toString(), // ID temporário para simulação
-      nomeCompleto,
+      nome: nomeCompleto,
       cpf,
-      dataNascimento,
+      dataNascimento: new Date(dataNascimento).toISOString(), // Convertendo a data para o formato esperado pela API
       sexo,
       telefone,
       email,
@@ -68,17 +86,27 @@ function CadastroPaciente({ onSaveSuccess, onCancel }) {
       cidade,
       estado,
       nis: nis || null, // NIS é opcional
-      criadoEm: new Date().toISOString(),
-      atualizadoEm: new Date().toISOString(),
     };
 
-    console.log('Novo Paciente a ser cadastrado:', novoPaciente);
-    setMensagemSucesso('Paciente cadastrado com sucesso!');
+    try {
+      // Enviar os dados para a API
+      const response = await axiosService.post("/patient", novoPaciente);
 
-    // Após simulação de sucesso, pode chamar a função para voltar à lista
-    setTimeout(() => {
-      if (onSaveSuccess) onSaveSuccess(novoPaciente);
-    }, 1500); // Simula um pequeno atraso para a mensagem de sucesso
+      // Sucesso na criação do paciente
+      setMensagemSucesso("Paciente cadastrado com sucesso!");
+
+      // Chama a função de sucesso, se passar como props
+      if (onSaveSuccess) onSaveSuccess(response.data);
+
+      // Redireciona após sucesso (opcional)
+      setTimeout(() => {
+        navigate("/pacientes"); // Redireciona para a lista de pacientes após o cadastro
+      }, 1500);
+    } catch (error) {
+      // Tratar erros de requisição
+      console.error("Erro ao cadastrar paciente:", error);
+      setErro("Erro ao cadastrar paciente. Tente novamente.");
+    }
   };
 
   return (
@@ -87,12 +115,16 @@ function CadastroPaciente({ onSaveSuccess, onCancel }) {
         <h1 className="cadastro-paciente-title">Cadastro de Paciente</h1>
 
         {erro && <p className="cadastro-paciente-erro">{erro}</p>}
-        {mensagemSucesso && <p className="cadastro-paciente-sucesso">{mensagemSucesso}</p>}
+        {mensagemSucesso && (
+          <p className="cadastro-paciente-sucesso">{mensagemSucesso}</p>
+        )}
 
         <form onSubmit={handleSubmit} className="cadastro-paciente-form">
-          {/* Nome Completo (Obrigatório) */}
+          {/* Nome Completo */}
           <div className="form-group">
-            <label htmlFor="nomeCompleto">Nome Completo <span className="obrigatorio">*</span></label>
+            <label htmlFor="nomeCompleto">
+              Nome Completo <span className="obrigatorio">*</span>
+            </label>
             <input
               type="text"
               id="nomeCompleto"
@@ -103,9 +135,11 @@ function CadastroPaciente({ onSaveSuccess, onCancel }) {
             />
           </div>
 
-          {/* CPF (Obrigatório e Único) */}
+          {/* CPF */}
           <div className="form-group">
-            <label htmlFor="cpf">CPF <span className="obrigatorio">*</span></label>
+            <label htmlFor="cpf">
+              CPF <span className="obrigatorio">*</span>
+            </label>
             <input
               type="text"
               id="cpf"
@@ -117,9 +151,11 @@ function CadastroPaciente({ onSaveSuccess, onCancel }) {
             />
           </div>
 
-          {/* Data de Nascimento (Obrigatório) */}
+          {/* Data de Nascimento */}
           <div className="form-group">
-            <label htmlFor="dataNascimento">Data de Nascimento <span className="obrigatorio">*</span></label>
+            <label htmlFor="dataNascimento">
+              Data de Nascimento <span className="obrigatorio">*</span>
+            </label>
             <input
               type="date"
               id="dataNascimento"
@@ -130,9 +166,11 @@ function CadastroPaciente({ onSaveSuccess, onCancel }) {
             />
           </div>
 
-          {/* Sexo (Obrigatório) */}
+          {/* Sexo */}
           <div className="form-group">
-            <label htmlFor="sexo">Sexo <span className="obrigatorio">*</span></label>
+            <label htmlFor="sexo">
+              Sexo <span className="obrigatorio">*</span>
+            </label>
             <select
               id="sexo"
               value={sexo}
@@ -147,7 +185,7 @@ function CadastroPaciente({ onSaveSuccess, onCancel }) {
             </select>
           </div>
 
-          {/* Telefone (Opcional) */}
+          {/* Telefone */}
           <div className="form-group">
             <label htmlFor="telefone">Telefone</label>
             <input
@@ -160,7 +198,7 @@ function CadastroPaciente({ onSaveSuccess, onCancel }) {
             />
           </div>
 
-          {/* E-mail (Opcional) */}
+          {/* E-mail */}
           <div className="form-group">
             <label htmlFor="email">E-mail</label>
             <input
@@ -173,9 +211,11 @@ function CadastroPaciente({ onSaveSuccess, onCancel }) {
             />
           </div>
 
-          {/* Endereço (Obrigatório) */}
+          {/* Endereço */}
           <div className="form-group">
-            <label htmlFor="endereco">Endereço <span className="obrigatorio">*</span></label>
+            <label htmlFor="endereco">
+              Endereço <span className="obrigatorio">*</span>
+            </label>
             <input
               type="text"
               id="endereco"
@@ -186,9 +226,11 @@ function CadastroPaciente({ onSaveSuccess, onCancel }) {
             />
           </div>
 
-          {/* Bairro (Obrigatório) */}
+          {/* Bairro */}
           <div className="form-group">
-            <label htmlFor="bairro">Bairro <span className="obrigatorio">*</span></label>
+            <label htmlFor="bairro">
+              Bairro <span className="obrigatorio">*</span>
+            </label>
             <input
               type="text"
               id="bairro"
@@ -199,9 +241,11 @@ function CadastroPaciente({ onSaveSuccess, onCancel }) {
             />
           </div>
 
-          {/* Cidade (Padrão: "Independência", mas editável) */}
+          {/* Cidade */}
           <div className="form-group">
-            <label htmlFor="cidade">Cidade <span className="obrigatorio">*</span></label>
+            <label htmlFor="cidade">
+              Cidade <span className="obrigatorio">*</span>
+            </label>
             <input
               type="text"
               id="cidade"
@@ -212,9 +256,11 @@ function CadastroPaciente({ onSaveSuccess, onCancel }) {
             />
           </div>
 
-          {/* Estado (Padrão: "CE", mas editável) */}
+          {/* Estado */}
           <div className="form-group">
-            <label htmlFor="estado">Estado <span className="obrigatorio">*</span></label>
+            <label htmlFor="estado">
+              Estado <span className="obrigatorio">*</span>
+            </label>
             <input
               type="text"
               id="estado"
@@ -225,7 +271,7 @@ function CadastroPaciente({ onSaveSuccess, onCancel }) {
             />
           </div>
 
-          {/* NIS (Opcional) */}
+          {/* NIS */}
           <div className="form-group">
             <label htmlFor="nis">NIS</label>
             <input
@@ -247,10 +293,7 @@ function CadastroPaciente({ onSaveSuccess, onCancel }) {
             >
               Cancelar
             </button>
-            <button
-              type="submit"
-              className="btn btn-primary"
-            >
+            <button type="submit" className="btn btn-primary">
               Salvar Paciente
             </button>
           </div>
