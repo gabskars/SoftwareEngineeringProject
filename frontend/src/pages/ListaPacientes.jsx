@@ -59,7 +59,7 @@ function ListaPacientes({ onLogout }) {
       )
     ) {
       try {
-        await axiosService.delete(`/patients/${patientId}`);
+        await axiosService.delete(`/patient/${patientId}`);
         const updatedPatients = patients.filter(
           (patient) => patient.id !== patientId
         );
