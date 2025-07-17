@@ -18,7 +18,7 @@ function Login() {
     if (email === "admin@email.com" && senha === "1234") {
       setMensagemSucesso("Login bem-sucedido!");
       setTimeout(() => {
-        navigate("/pacientes");
+        navigate("pacientes");
       }, 1000);
     } else {
       setErro("Email ou senha inválidos");
